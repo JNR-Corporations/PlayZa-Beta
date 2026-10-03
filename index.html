@@ -8,6 +8,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="description" content="PlayZa Beta feedback center">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="logo.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="logo.png">
 <title>PlayZa Beta</title>
 <style>
 :root{
@@ -262,6 +265,11 @@ $("mobileThreads").onclick=()=>{const aside=$("inbox");aside.style.display="flex
 ["userText","adminText"].forEach(id=>{const t=$(id);t.addEventListener("input",()=>{t.style.height="auto";t.style.height=Math.min(150,t.scrollHeight)+"px"});t.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();t.form.requestSubmit()}})});
 
 onAuthStateChanged(auth,u=>{try{if(!u)showLogin();else showApp(u)}catch(e){console.error("auth-state",e);showLogin()}});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {});
+  });
+}
 </script>
 </body>
 </html>
