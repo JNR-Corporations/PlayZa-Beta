@@ -1,0 +1,10 @@
+{
+  "name": "PlayZa Beta Feedback Center",
+  "short_name": "PlayZa Beta",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f7f9",
+  "theme_color": "#ff6b00",
+  "orientation": "portrait-primary",
+  "description": "Private realtime Firebase feedback chat for PlayZa beta users."
+}

@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "threads": {
+      ".read": "auth != null && auth.token.email == 'official@playza.com'",
+      "$uid": {
+        ".read": "auth != null && (auth.uid == $uid || auth.token.email == 'official@playza.com')",
+        ".write": "auth != null && newData.exists() && (auth.uid == $uid || auth.token.email == 'official@playza.com')",
+        ".validate": "newData.exists() && newData.hasChildren(['uid','email','status','category','priority']) && newData.child('uid').val() == $uid && (auth.token.email == 'official@playza.com' || newData.child('email').val() == auth.token.email) && (newData.child('status').val() == 'open' || newData.child('status').val() == 'resolved') && (newData.child('category').val() == 'general' || newData.child('category').val() == 'bug' || newData.child('category').val() == 'feature' || newData.child('category').val() == 'ui' || newData.child('category').val() == 'performance' || newData.child('category').val() == 'privacy') && (newData.child('priority').val() == 'normal' || newData.child('priority').val() == 'high')"
+      }
+    },
+    "messages": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid == $uid || auth.token.email == 'official@playza.com')",
+        "$messageId": {
+          ".write": "auth != null && !data.exists() && newData.exists() && ((auth.uid == $uid && newData.child('senderUid').val() == auth.uid && newData.child('senderRole').val() == 'user') || (auth.token.email == 'official@playza.com' && $uid != auth.uid && newData.child('senderUid').val() == auth.uid && newData.child('senderRole').val() == 'official'))",
+          ".validate": "newData.hasChildren(['text','senderUid','senderEmail','senderRole','createdAt']) && newData.child('text').isString() && newData.child('text').val().length <= 4000"
+        }
+      }
+    }
+  }
+}
