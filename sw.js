@@ -1,14 +1,9 @@
 const CACHE = 'playza-beta-shell-v1';
 const APP_SHELL = [
   './',
-  './playza-beta-fixed.html',
+  './index.html',
   './manifest.webmanifest',
-  './icons/icon-48x48.png',
-  './icons/icon-72x72.png',
-  './icons/icon-96x96.png',
-  './icons/icon-144x144.png',
-  './icons/icon-192x192.png',
-  './icons/icon-512x512.png'
+  './logo.png'
 ];
 
 self.addEventListener('install', event => {
@@ -44,7 +39,7 @@ self.addEventListener('fetch', event => {
           caches.open(CACHE).then(cache => cache.put(req, copy)).catch(() => {});
           return response;
         })
-        .catch(() => caches.match(req).then(cached => cached || caches.match('./playza-beta-fixed.html')))
+        .catch(() => caches.match(req).then(cached => cached || caches.match('./index.html')))
     );
     return;
   }
