@@ -5,7 +5,7 @@
   "description": "PlayZa Beta Feedback Center",
   "lang": "en-IN",
   "dir": "ltr",
-  "start_url": "./playza-beta-fixed.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone"],
