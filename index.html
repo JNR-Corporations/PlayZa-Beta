@@ -95,7 +95,7 @@ button,input,textarea,select{font:inherit}button{border:0;cursor:pointer}button:
 
 <section id="admin" class="screen admin-layout hidden">
   <aside id="inbox" class="surface inbox">
-    <div class="inbox-head"><div class="inbox-title"><h2 class="section-title">Feedback Inbox</h2><span id="count" class="count">0</span></div><div class="search-wrap"><span class="search-icon">⌕</span><input id="search" class="search" type="search" placeholder="Search feedback…"></div></div>
+    <div class="inbox-head"><div class="inbox-title"><h2 class="section-title">Feedback Inbox</h2><div style="display:flex;align-items:center;gap:6px"><span id="count" class="count">0</span><button id="refreshInbox" class="icon-btn" type="button" aria-label="Refresh inbox">↻</button></div></div><div class="search-wrap"><span class="search-icon">⌕</span><input id="search" class="search" type="search" placeholder="Search feedback…"></div></div>
     <div id="threadList" class="thread-list"><div class="skeleton-list"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></div>
   </aside>
   <section class="surface admin-chat">
@@ -113,7 +113,7 @@ button,input,textarea,select{font:inherit}button{border:0;cursor:pointer}button:
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth,onAuthStateChanged,signInWithEmailAndPassword,sendPasswordResetEmail,signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getDatabase,ref,push,set,update,onValue,serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+import { getDatabase,ref,push,set,update,onValue,get,serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 const firebaseConfig={
   apiKey:"AIzaSyARphDfw_hHr3e6KFiVOTHvm_3lfn-Whx4",
@@ -154,23 +154,94 @@ function startUser(){
     subs.push(t,m);
   }).catch(e=>{$("userMsgs").innerHTML='<div class="inbox-state"><div><div class="state-icon">!</div><div class="state-title">Feedback space unavailable</div><div class="state-copy">Please check your connection and try again.</div><button id="retryUser" class="retry" type="button">Retry</button></div></div>';setTimeout(()=>$("retryUser")?.addEventListener("click",()=>startUser()),0);console.error("thread",e)});
 }
-function startAdmin(){
-  renderThreadListLoading();showAdminEmpty("Loading inbox…","Your feedback threads are syncing now.",false);
+async function startAdmin(){
+  renderThreadListLoading();
+  showAdminEmpty("Loading inbox…","Checking your live feedback inbox.",false);
+  try{
+    // Force a fresh Auth token so Database Rules see the current email/identity.
+    await currentUser.getIdToken(true);
+  }catch(e){
+    console.warn("token-refresh",e);
+  }
   attachInbox();
 }
-function renderThreadListLoading(){$("threadList").innerHTML='<div class="skeleton-list"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>'}
-function showAdminEmpty(title,copy,retry=true){$("adminChatBody").classList.add("hidden");$("adminEmpty").classList.remove("hidden");$("adminEmpty").querySelector(".state-title").textContent=title;$("adminEmpty").querySelector(".state-copy").textContent=copy;$("retryInbox").classList.toggle("hidden",!retry)}
-function attachInbox(){
-  inboxUnsub?.();
-  inboxUnsub=onValue(ref(db,"threads"),snap=>{
-    threads=snap.val()||{};renderThreads();
-    if(selectedThread && threads[selectedThread])openThread(selectedThread,true);
-    if(!selectedThread && Object.keys(threads).length){openThread(Object.keys(threads).sort((a,b)=>Number(threads[b].updatedAt||0)-Number(threads[a].updatedAt||0))[0],true)}
-    if(!Object.keys(threads).length)showAdminEmpty("No feedback yet","New beta feedback threads will appear here.",true);
-  },err=>{console.error("inbox",err);threads={};$("count").textContent="0";$("threadList").innerHTML='<div class="inbox-state" style="min-height:260px"><div><div class="state-icon">!</div><div class="state-title">Couldn’t sync inbox</div><div class="state-copy">The app is still open. Retry the live connection.</div><button class="retry" type="button" id="retryInline">Retry sync</button></div></div>';showAdminEmpty("Inbox needs a retry","The feedback list could not be read right now.",true);setTimeout(()=>$("retryInline")?.addEventListener("click",attachInbox),0)});
-  subs.push(inboxUnsub);
+function renderThreadListLoading(){
+  $("threadList").innerHTML='<div class="skeleton-list"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>';
 }
-function renderThreads(){const q=$("search").value.trim().toLowerCase();const rows=Object.entries(threads).filter(([uid,t])=>!q||`${t.email||""} ${t.lastMessage||""} ${t.category||""}`.toLowerCase().includes(q)).sort((a,b)=>Number(b[1].updatedAt||0)-Number(a[1].updatedAt||0));$("count").textContent=String(Object.keys(threads).length);if(!rows.length){$("threadList").innerHTML='<div class="inbox-state" style="min-height:240px"><div><div class="state-icon">⌕</div><div class="state-title">No matches</div><div class="state-copy">Try another email, category or feedback word.</div></div></div>';return}$("threadList").innerHTML=rows.map(([uid,t])=>`<div class="thread ${uid===selectedThread?"active":""}" data-id="${esc(uid)}"><div class="thread-row"><div class="avatar">${initials(t.email||uid)}</div><div class="thread-main"><div class="thread-name">${esc(t.email||uid)}</div><div class="thread-preview">${esc(t.lastMessage||"No messages yet")}</div><div class="thread-meta"><span>${esc(t.category||"general")} • ${esc(t.status||"open")}</span><span>${t.unreadForOfficial?'<i class="unread"></i>':fmt(Number(t.updatedAt||0))}</span></div></div></div></div>`).join("");$("threadList").querySelectorAll(".thread").forEach(el=>el.addEventListener("click",()=>openThread(el.dataset.id)))}
+function showAdminEmpty(title,copy,retry=true){
+  $("adminChatBody").classList.add("hidden");
+  $("adminEmpty").classList.remove("hidden");
+  $("adminEmpty").querySelector(".state-title").textContent=title;
+  $("adminEmpty").querySelector(".state-copy").textContent=copy;
+  $("retryInbox").classList.toggle("hidden",!retry);
+}
+function inboxErrorText(err){
+  const code=String(err?.code||"").toUpperCase();
+  const msg=String(err?.message||"").toLowerCase();
+  if(code.includes("PERMISSION_DENIED")||msg.includes("permission_denied")||msg.includes("permission denied")){
+    return {title:"Inbox access blocked",copy:"The official account can sign in, but the database is not allowing the inbox to be read. Update the Realtime Database Rules shown below."};
+  }
+  if(code.includes("NETWORK")||msg.includes("network")||msg.includes("offline")){
+    return {title:"Connection paused",copy:"The live inbox connection was interrupted. The app will keep the screen open and can reconnect."};
+  }
+  return {title:"Inbox sync failed",copy:"The feedback list could not be loaded. Tap Retry sync to reconnect."};
+}
+async function attachInbox(){
+  inboxUnsub?.();
+  inboxUnsub=null;
+  selectedThread=null;
+  adminMsgUnsub?.();
+  adminMsgUnsub=null;
+  renderThreadListLoading();
+  showAdminEmpty("Loading inbox…","Checking your live feedback inbox.",false);
+
+  // One quick read gives us a deterministic setup/permission error instead of a blank inbox.
+  try{
+    const first=await get(ref(db,"threads"));
+    threads=first.val()||{};
+    renderThreads();
+    const ids=Object.keys(threads);
+    if(ids.length){
+      ids.sort((a,b)=>Number(threads[b]?.updatedAt||0)-Number(threads[a]?.updatedAt||0));
+      openThread(ids[0],true);
+    }else{
+      showAdminEmpty("No feedback yet","New beta feedback threads will appear here automatically.",true);
+    }
+  }catch(err){
+    console.error("inbox-first-read",err);
+    const e=inboxErrorText(err);
+    threads={};
+    $("count").textContent="0";
+    $("threadList").innerHTML='<div class="inbox-state" style="min-height:260px"><div><div class="state-icon">!</div><div class="state-title">'+esc(e.title)+'</div><div class="state-copy">'+esc(e.copy)+'</div><button class="retry" type="button" id="retryInline">Retry sync</button></div></div>';
+    showAdminEmpty(e.title,e.copy,true);
+    setTimeout(()=>$("retryInline")?.addEventListener("click",()=>attachInbox()),0);
+    return;
+  }
+
+  inboxUnsub=onValue(ref(db,"threads"),snap=>{
+    threads=snap.val()||{};
+    renderThreads();
+    const ids=Object.keys(threads);
+    if(selectedThread && threads[selectedThread]){
+      openThread(selectedThread,true);
+    }else if(!selectedThread && ids.length){
+      ids.sort((a,b)=>Number(threads[b]?.updatedAt||0)-Number(threads[a]?.updatedAt||0));
+      openThread(ids[0],true);
+    }else if(!ids.length){
+      showAdminEmpty("No feedback yet","New beta feedback threads will appear here automatically.",true);
+    }
+  },err=>{
+    console.error("inbox-live",err);
+    const e=inboxErrorText(err);
+    inboxUnsub?.();
+    inboxUnsub=null;
+    const html='<div class="inbox-state" style="min-height:260px"><div><div class="state-icon">!</div><div class="state-title">'+esc(e.title)+'</div><div class="state-copy">'+esc(e.copy)+'</div><button class="retry" type="button" id="retryInline">Retry sync</button></div></div>';
+    $("threadList").innerHTML=html;
+    showAdminEmpty(e.title,e.copy,true);
+    setTimeout(()=>$("retryInline")?.addEventListener("click",()=>attachInbox()),0);
+  });
+}
+function renderThreads(){const q=$("search").value.trim().toLowerCase();const rows=Object.entries(threads).filter(([uid,t])=>!q||`${t.email||""} ${t.lastMessage||""} ${t.category||""}`.toLowerCase().includes(q)).sort((a,b)=>Number(b[1].updatedAt||0)-Number(a[1].updatedAt||0));$("count").textContent=String(Object.keys(threads).length);if(!rows.length){$("threadList").innerHTML='<div class="inbox-state" style="min-height:240px"><div><div class="state-icon">⌕</div><div class="state-title">No matches</div><div class="state-copy">Try another email, category or feedback word.</div></div></div>';return}$("threadList").innerHTML=rows.map(([uid,t])=>`<div class="thread ${uid===selectedThread?"active":""}" data-id="${esc(uid)}"><div class="thread-row"><div class="avatar">${initials(t.email||uid)}</div><div class="thread-main"><div class="thread-name">${esc(t.email||uid)}</div><div class="thread-preview">${esc(t.lastMessage||"No messages yet")}</div><div class="thread-meta"><span>${esc(t.category||"general")} • ${esc(t.status||"open")}</span><span>${t.unreadForOfficial?'<i class="unread"></i>':fmt(Number(t.updatedAt||0))}</span></div></div></div></div>`).join("");$("threadList").querySelectorAll(".thread").forEach(el=>el.addEventListener("click",()=>{openThread(el.dataset.id);closeMobileThreads()}))}
 function openThread(uid,refresh=false){if(!threads[uid])return;selectedThread=uid;const t=threads[uid];$("adminEmpty").classList.add("hidden");$("adminChatBody").classList.remove("hidden");$("adminEmail").textContent=t.email||uid;$("adminSub").textContent=`${t.status||"open"} • ${t.category||"general"} • beta feedback`;$('adminAva').textContent=initials(t.email||uid);$("adminStatus").value=t.status||"open";$("adminCategory").value=t.category||"general";renderThreads();adminMsgUnsub?.();adminMsgUnsub=onValue(ref(db,`messages/${uid}`),s=>{renderMessages($("adminMsgs"),s.val(),true)});if(!refresh)requestAnimationFrame(()=>$("adminMsgs").scrollTop=$("adminMsgs").scrollHeight);}
 
 $("togglePassword").onclick=()=>{const i=$("password"),show=i.type==="password";i.type=show?"text":"password";$("togglePassword").textContent=show?"○":"◉";$("togglePassword").setAttribute("aria-label",show?"Hide password":"Show password")};
@@ -178,13 +249,16 @@ $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginEr
 $("forgotPassword").onclick=async()=>{const email=$("email").value.trim();$("loginError").textContent="";if(!email){$("loginError").textContent="Password reset ke liye email enter karo.";$("email").focus();return}try{await sendPasswordResetEmail(auth,email);toast("Password reset email sent.")}catch(err){$("loginError").textContent=authMessage(err);console.error("reset",err)}};
 $("logout").onclick=()=>signOut(auth).catch(()=>toast("Couldn’t sign out. Try again."));
 $("retryInbox").onclick=()=>attachInbox();
+$("refreshInbox").onclick=()=>attachInbox();
 $("search").oninput=renderThreads;
 $("userForm").addEventListener("submit",async e=>{e.preventDefault();if(!currentUser||!$("userText").value.trim())return;const b=$("userSend"),t=$("userText");b.disabled=true;try{await update(ref(db,`threads/${currentUser.uid}`),{category:$("userCategory").value,priority:$("userPriority").value,updatedAt:serverTimestamp()});await sendMessage(currentUser.uid,t.value,"user");t.value="";t.style.height=""}catch(err){toast(err?.message||"Couldn’t send feedback.")}finally{b.disabled=false;t.focus()}});
 $("adminForm").addEventListener("submit",async e=>{e.preventDefault();if(!selectedThread||!$("adminText").value.trim())return;const b=$("adminSend"),t=$("adminText");b.disabled=true;try{await sendMessage(selectedThread,t.value,"official");t.value="";t.style.height=""}catch(err){toast(err?.message||"Couldn’t send reply.")}finally{b.disabled=false;t.focus()}});
 $("userStatus").onchange=()=>currentUser&&update(ref(db,`threads/${currentUser.uid}`),{status:$("userStatus").value,updatedAt:serverTimestamp()}).catch(()=>toast("Status update failed."));
 $("adminStatus").onchange=()=>selectedThread&&update(ref(db,`threads/${selectedThread}`),{status:$("adminStatus").value,updatedAt:serverTimestamp()}).catch(()=>toast("Status update failed."));
 $("adminCategory").onchange=()=>selectedThread&&update(ref(db,`threads/${selectedThread}`),{category:$("adminCategory").value,updatedAt:serverTimestamp()}).catch(()=>toast("Category update failed."));
-$("mobileThreads").onclick=()=>{const aside=$("inbox");aside.style.display="flex";aside.style.position="fixed";aside.style.zIndex="40";aside.style.inset="70px 8px 8px";aside.style.maxHeight="calc(100vh - 78px)";const close=e=>{if(!aside.contains(e.target)&&e.target!==$("mobileThreads")){aside.removeEventListener("click",()=>{});aside.style.display="none";aside.style.position="";aside.style.zIndex="";aside.style.inset="";aside.style.maxHeight=""}};setTimeout(()=>document.addEventListener("click",close,{once:false}),0)};
+function closeMobileThreads(){const aside=$("inbox");aside.style.display="";aside.style.position="";aside.style.zIndex="";aside.style.inset="";aside.style.maxHeight="";}
+$("mobileThreads").onclick=()=>{const aside=$("inbox");aside.style.display="flex";aside.style.position="fixed";aside.style.zIndex="40";aside.style.inset="70px 8px 8px";aside.style.maxHeight="calc(100vh - 78px)"};
+
 ["userText","adminText"].forEach(id=>{const t=$(id);t.addEventListener("input",()=>{t.style.height="auto";t.style.height=Math.min(150,t.scrollHeight)+"px"});t.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();t.form.requestSubmit()}})});
 
 onAuthStateChanged(auth,u=>{try{if(!u)showLogin();else showApp(u)}catch(e){console.error("auth-state",e);showLogin()}});
