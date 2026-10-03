@@ -5,55 +5,864 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#ff6b00">
 <meta name="description" content="PlayZa Beta Feedback Center">
-<link rel="manifest" href="./manifest.webmanifest">
-<title>PlayZa Beta Feedback</title>
+<title>PlayZa Beta • Feedback Center</title>
 <style>
-:root{--p:#ff6b00;--p2:#ff934f;--soft:#fff1e7;--bg:#f6f7f9;--card:#fff;--text:#17202a;--muted:#73808e;--line:#e7ebef;--ok:#19a957;--bad:#dc4141;--shadow:0 14px 44px rgba(23,32,42,.08)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,textarea,select{font:inherit}button{border:0;cursor:pointer}.hidden{display:none!important}
-.top{height:70px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}.brand{display:flex;gap:11px;align-items:center}.mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:900;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 8px 18px rgba(255,107,0,.22)}.brand b{display:block;font-size:16px}.brand small{color:var(--muted);font-size:10px}.topright{display:flex;align-items:center;gap:8px}.pill{background:#f3f5f7;color:#596473;border-radius:999px;padding:8px 11px;font-size:11px;font-weight:800}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:5px}.btn{min-height:42px;padding:0 14px;border-radius:13px;font-weight:800}.primary{background:var(--p);color:#fff;box-shadow:0 8px 18px rgba(255,107,0,.2)}.ghost{background:#f2f4f6;color:#384250}.danger{background:#fff0f0;color:var(--bad)}
-.wrap{width:min(1400px,100%);margin:auto;padding:18px}.login{min-height:calc(100vh - 88px);display:grid;place-items:center}.login-card{width:min(460px,100%);padding:32px;border:1px solid var(--line);background:#fff;border-radius:28px;box-shadow:var(--shadow)}.hero{width:64px;height:64px;border-radius:21px;display:grid;place-items:center;color:#fff;font-size:28px;font-weight:900;background:linear-gradient(135deg,var(--p),var(--p2));margin-bottom:18px}.login-card h1{font-size:28px;line-height:1.05;margin:0 0 9px;letter-spacing:-.6px}.sub{color:var(--muted);font-size:13px;line-height:1.55}.notice{margin:15px 0;padding:12px 13px;background:var(--soft);border:1px solid #ffd9c0;border-radius:15px;color:#945019;font-size:11px;line-height:1.55}.field{margin:13px 0}.field label{display:block;font-size:11px;font-weight:900;color:#586372;margin:0 0 6px}.input,.select,.ta{width:100%;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:14px;outline:none;padding:12px 13px}.input:focus,.select:focus,.ta:focus{border-color:#ffc199;box-shadow:0 0 0 4px #fff2ea}.error{min-height:18px;color:var(--bad);font-size:11px;margin:7px 0}
-.user-layout,.admin-layout{display:grid;gap:16px}.user-layout{grid-template-rows:auto 1fr;min-height:calc(100vh - 106px)}.welcome{padding:18px 20px;border-radius:22px;background:linear-gradient(135deg,#fff,#fff7f0);border:1px solid #ffe0cd;display:flex;align-items:center;justify-content:space-between;gap:15px}.welcome h2{margin:0 0 5px;font-size:21px}.welcome p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.chip{padding:6px 9px;border-radius:999px;background:#f1f3f5;color:#596473;font-size:10px;font-weight:900}
-.admin-layout{grid-template-columns:320px minmax(0,1fr);height:calc(100vh - 106px);min-height:640px}.panel{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 8px 28px rgba(23,32,42,.05)}.sidebar{display:flex;flex-direction:column}.sidehead{padding:16px;border-bottom:1px solid var(--line)}.sidehead-row{display:flex;justify-content:space-between;align-items:center}.sidehead h2{font-size:15px;margin:0}.count{font-size:9px;font-weight:900;background:var(--soft);color:#a74d14;padding:5px 8px;border-radius:999px}.search{margin-top:10px}.search input{width:100%;border:0;outline:none;background:#f6f7f8;padding:11px 12px;border-radius:12px;font-size:12px}.threads{overflow:auto;padding:7px}.thread{padding:12px;border-radius:15px;margin-bottom:3px;cursor:pointer}.thread:hover{background:#f7f9fa}.thread.active{background:#fff0e7}.tr{display:flex;gap:10px}.ava{width:38px;height:38px;flex:0 0 auto;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe1cd,#fff0e7);color:#af5417;font-size:11px;font-weight:900}.tm{min-width:0;flex:1}.tn{font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tp{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.meta{display:flex;justify-content:space-between;gap:8px;margin-top:5px;color:#969faa;font-size:9px}.unread{width:8px;height:8px;display:inline-block;border-radius:50%;background:var(--p)}.empty{height:100%;display:grid;place-items:center;padding:30px;text-align:center;color:var(--muted);font-size:12px}
-.chat{min-width:0;display:flex;flex-direction:column}.chathead{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.chatuser{display:flex;align-items:center;gap:10px;min-width:0}.chatuser .ava{width:40px;height:40px}.chatuser h3{font-size:14px;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chatuser p{font-size:10px;color:var(--muted);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.controls{display:flex;gap:7px}.mini-select{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 8px;font-size:10px;font-weight:800}.messages{flex:1;overflow:auto;padding:22px 18px;background:linear-gradient(#fff,#fffaf6);scroll-behavior:smooth}.sep{text-align:center;color:#9aa3ac;font-size:9px;margin-bottom:12px}.msg{display:flex;margin:8px 0}.msg.me{justify-content:flex-end}.bubble-wrap{max-width:min(78%,700px)}.bubble{padding:11px 13px;border-radius:18px;background:#eff2f4;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word}.msg.me .bubble{background:var(--p);color:#fff;border-bottom-right-radius:6px}.msg.them .bubble{background:var(--soft);border-bottom-left-radius:6px}.time{font-size:9px;color:#9ba4ae;margin-top:4px}.msg.me .time{text-align:right}.composer{border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;align-items:flex-end;background:#fff}.ta{resize:none;min-height:48px;max-height:150px;line-height:1.45}.send{height:48px;width:51px;padding:0;border-radius:15px}.extras{display:flex;gap:7px;padding:9px 11px 0;flex-wrap:wrap}.extras .select{width:auto;min-width:135px;font-size:10px;padding:8px}.loading{position:fixed;inset:0;z-index:100;background:rgba(246,247,249,.88);backdrop-filter:blur(6px);display:grid;place-items:center}.loader{display:flex;align-items:center;gap:11px;padding:16px 18px;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:var(--shadow);font-size:12px;font-weight:900}.spin{width:18px;height:18px;border:3px solid #ffd8c0;border-top-color:var(--p);border-radius:50%;animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}.toast{position:fixed;z-index:120;bottom:22px;left:50%;transform:translate(-50%,18px);padding:10px 14px;border-radius:11px;background:#18202a;color:#fff;font-size:11px;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:880px){.top{height:64px;padding:0 11px}.topright .pill{display:none}.wrap{padding:9px}.admin-layout{grid-template-columns:1fr;height:auto;min-height:calc(100vh - 82px)}.sidebar{display:none}.chat{min-height:calc(100vh - 82px)}.bubble-wrap{max-width:88%}.welcome{align-items:flex-start;flex-direction:column}.chips{justify-content:flex-start}}@media(max-width:520px){.login-card{padding:24px;border-radius:23px}.login-card h1{font-size:25px}.brand .mark{width:36px;height:36px}.brand small{display:none}.top .btn{min-height:38px}.chathead{padding:12px}.controls .mini-select{max-width:100px}.messages{padding:16px 11px}}
+:root{
+  --orange:#ff6b00;
+  --orange-2:#ff9d5c;
+  --orange-3:#fff1e6;
+  --orange-4:#ffe0c8;
+  --bg:#f7f8fa;
+  --card:#ffffff;
+  --text:#171a1f;
+  --muted:#747d89;
+  --line:#e9edf1;
+  --green:#22a55a;
+  --red:#d83c3c;
+  --shadow:0 24px 70px rgba(20,24,31,.10);
+  --shadow-soft:0 12px 35px rgba(20,24,31,.07);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:
+ radial-gradient(circle at 10% 0%,rgba(255,107,0,.08),transparent 26%),
+ radial-gradient(circle at 100% 20%,rgba(255,157,92,.09),transparent 24%),
+ var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}
+button{border:0;cursor:pointer}
+.hidden{display:none!important}
+.top{
+ height:74px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+ background:rgba(255,255,255,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+ border-bottom:1px solid rgba(233,237,241,.9);position:sticky;top:0;z-index:50
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{
+ width:44px;height:44px;border-radius:15px;display:grid;place-items:center;flex:0 0 auto;
+ color:#fff;font-weight:950;font-size:19px;
+ background:linear-gradient(135deg,var(--orange),var(--orange-2));
+ box-shadow:0 12px 24px rgba(255,107,0,.22)
+}
+.brand-copy b{display:block;font-size:16px;letter-spacing:-.2px}
+.brand-copy small{display:block;margin-top:1px;color:var(--muted);font-size:10px;font-weight:700}
+.top-right{display:flex;align-items:center;gap:8px;min-width:0}
+.pill{
+ border:1px solid var(--line);background:#fff;color:#5f6875;border-radius:999px;padding:8px 11px;
+ font-size:10px;font-weight:850;white-space:nowrap;box-shadow:0 5px 15px rgba(20,24,31,.04)
+}
+.pill.live{color:#257744;background:#f1fbf5;border-color:#d4efdd}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--green);margin-right:5px;box-shadow:0 0 0 3px rgba(34,165,90,.09)}
+.btn{
+ min-height:42px;padding:0 15px;border-radius:13px;font-weight:850;transition:.18s ease;
+ display:inline-flex;align-items:center;justify-content:center;gap:8px
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--orange),#ff7e22);box-shadow:0 12px 24px rgba(255,107,0,.20)}
+.btn.ghost{background:#f3f5f7;color:#384250}
+.btn.light{background:#fff;border:1px solid var(--line);color:#4b5563}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.wrap{width:min(1460px,100%);margin:0 auto;padding:22px}
+.loading{
+ position:fixed;inset:0;z-index:1000;background:rgba(247,248,250,.76);backdrop-filter:blur(10px);
+ display:grid;place-items:center
+}
+.loader{
+ display:flex;align-items:center;gap:12px;padding:15px 17px;border:1px solid var(--line);
+ border-radius:16px;background:#fff;box-shadow:var(--shadow-soft);font-size:12px;font-weight:850
+}
+.spinner{width:19px;height:19px;border:3px solid #ffd9bf;border-top-color:var(--orange);border-radius:50%;animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{
+ position:fixed;z-index:1100;bottom:24px;left:50%;transform:translate(-50%,16px);
+ padding:11px 15px;border-radius:13px;background:#1c222b;color:#fff;font-size:11px;font-weight:800;
+ opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 14px 34px rgba(0,0,0,.16)
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.login-shell{min-height:calc(100vh - 74px);display:grid;place-items:center;padding:30px 0}
+.login-card{
+ width:min(1040px,100%);display:grid;grid-template-columns:1.05fr .95fr;overflow:hidden;
+ border:1px solid rgba(231,235,239,.9);border-radius:32px;background:#fff;box-shadow:var(--shadow)
+}
+.login-visual{
+ position:relative;padding:48px;background:
+ linear-gradient(145deg,#fff4ea,#fffaf6 55%,#fff);
+ border-right:1px solid var(--line);overflow:hidden
+}
+.login-visual:before,.login-visual:after{
+ content:"";position:absolute;border-radius:999px;filter:blur(1px);pointer-events:none
+}
+.login-visual:before{width:240px;height:240px;right:-100px;top:-120px;background:rgba(255,107,0,.12)}
+.login-visual:after{width:190px;height:190px;left:-80px;bottom:-80px;background:rgba(255,157,92,.13)}
+.visual-badge{
+ position:relative;z-index:1;display:inline-flex;align-items:center;gap:7px;padding:8px 11px;
+ border-radius:999px;background:rgba(255,255,255,.86);border:1px solid #ffd9bf;color:#a75214;
+ font-size:10px;font-weight:900
+}
+.visual-logo{
+ position:relative;z-index:1;width:76px;height:76px;margin:30px 0 18px;border-radius:25px;display:grid;place-items:center;
+ color:#fff;font-size:34px;font-weight:950;background:linear-gradient(135deg,var(--orange),var(--orange-2));
+ box-shadow:0 16px 34px rgba(255,107,0,.20)
+}
+.login-visual h2{position:relative;z-index:1;margin:0;max-width:440px;font-size:38px;line-height:1.03;letter-spacing:-1.5px}
+.login-visual h2 span{color:var(--orange)}
+.login-visual p{position:relative;z-index:1;max-width:460px;margin:14px 0 0;color:#6f7883;font-size:13px;line-height:1.7}
+.feature-list{position:relative;z-index:1;display:grid;gap:9px;margin-top:26px}
+.feature{
+ display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid rgba(255,218,195,.85);
+ background:rgba(255,255,255,.72);border-radius:14px;font-size:11px;font-weight:800;color:#525c68
+}
+.feature i{font-style:normal;width:26px;height:26px;display:grid;place-items:center;border-radius:9px;background:var(--orange-3);color:var(--orange)}
+.login-form-panel{padding:48px;display:flex;align-items:center}
+.form-inner{width:min(420px,100%);margin:auto}
+.kicker{font-size:10px;font-weight:950;letter-spacing:1.2px;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.form-inner h1{font-size:29px;letter-spacing:-.8px;line-height:1.08;margin:0 0 8px}
+.sub{color:var(--muted);font-size:12px;line-height:1.65}
+.notice{
+ margin:18px 0;padding:13px 14px;border:1px solid #ffd9bf;background:#fff7f0;border-radius:15px;
+ color:#8d511f;font-size:11px;line-height:1.55
+}
+.field{margin:15px 0}
+.field label{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;font-size:11px;font-weight:900;color:#596371}
+.input-wrap{position:relative}
+.input,.select,.ta{
+ width:100%;border:1px solid var(--line);outline:none;background:#fff;color:var(--text);border-radius:14px;
+ padding:12px 13px;transition:.18s ease
+}
+.input{min-height:46px}
+.input.with-action{padding-right:47px}
+.input:focus,.select:focus,.ta:focus{
+ border-color:#ffb78b;box-shadow:0 0 0 4px #fff0e5
+}
+.password-toggle{
+ position:absolute;right:6px;top:6px;width:34px;height:34px;border-radius:10px;background:#f5f6f7;color:#6b7280;font-size:12px
+}
+.form-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:7px 0 18px}
+.hint{font-size:10px;color:var(--muted);line-height:1.45}
+.link-btn{background:none;color:var(--orange);padding:0;font-size:10px;font-weight:900}
+.error{min-height:18px;margin:7px 0 5px;color:var(--red);font-size:10.5px;line-height:1.45}
+.auth-help{
+ margin-top:13px;padding-top:14px;border-top:1px solid var(--line);font-size:9.5px;color:#8b95a0;line-height:1.55
+}
+
+.user-layout{display:grid;grid-template-rows:auto 1fr;gap:16px;min-height:calc(100vh - 118px)}
+.welcome{
+ padding:18px 20px;border:1px solid #ffe2cf;border-radius:22px;
+ background:linear-gradient(135deg,#fff,#fff8f3);display:flex;align-items:center;justify-content:space-between;gap:16px;
+ box-shadow:var(--shadow-soft)
+}
+.welcome h2{margin:0 0 5px;font-size:20px;letter-spacing:-.4px}
+.welcome p{margin:0;color:var(--muted);font-size:11.5px;line-height:1.5}
+.chips{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.chip{padding:7px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);color:#5d6672;font-size:9.5px;font-weight:900}
+
+.panel{background:#fff;border:1px solid var(--line);border-radius:23px;overflow:hidden;box-shadow:var(--shadow-soft)}
+.chat{min-width:0;display:flex;flex-direction:column}
+.chat-head{
+ padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;
+ gap:12px;background:rgba(255,255,255,.96)
+}
+.chat-user{display:flex;align-items:center;gap:10px;min-width:0}
+.avatar{
+ width:40px;height:40px;flex:0 0 auto;border-radius:13px;display:grid;place-items:center;
+ background:linear-gradient(135deg,#ffe0c8,#fff0e5);color:#aa5116;font-size:11px;font-weight:950
+}
+.chat-user h3{margin:0 0 2px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-user p{margin:0;color:var(--muted);font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-controls{display:flex;gap:7px;align-items:center}
+.mini-select{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 8px;font-size:9.5px;font-weight:850;color:#48515d}
+.messages{
+ flex:1;min-height:0;overflow:auto;padding:20px 17px;background:
+ radial-gradient(circle at 0% 0%,rgba(255,107,0,.035),transparent 25%),linear-gradient(#fff,#fffaf7)
+}
+.separator{text-align:center;color:#9ba4ae;font-size:8.5px;font-weight:900;letter-spacing:.7px;margin-bottom:12px}
+.message{display:flex;margin:8px 0}
+.message.me{justify-content:flex-end}
+.bubble-wrap{max-width:min(78%,740px)}
+.bubble{
+ padding:11px 13px;border-radius:17px;background:#f0f2f4;font-size:12px;line-height:1.55;
+ white-space:pre-wrap;word-break:break-word;border:1px solid rgba(229,233,237,.8)
+}
+.message.me .bubble{background:linear-gradient(135deg,var(--orange),#ff7b1e);color:#fff;border-color:transparent;border-bottom-right-radius:6px}
+.message.them .bubble{background:#fff2e9;border-color:#ffe2cf;border-bottom-left-radius:6px}
+.time{margin-top:4px;color:#9ca4ae;font-size:8.5px}
+.message.me .time{text-align:right}
+.composer{
+ display:flex;align-items:flex-end;gap:8px;padding:10px;border-top:1px solid var(--line);background:#fff
+}
+.ta{resize:none;min-height:48px;max-height:160px;line-height:1.45}
+.send{height:48px;width:53px;padding:0;border-radius:15px;flex:0 0 auto}
+.extras{display:flex;gap:7px;padding:9px 11px 0;flex-wrap:wrap;background:#fff}
+.extras .select{width:auto;min-width:145px;padding:8px 10px;font-size:9.5px}
+.empty{height:100%;display:grid;place-items:center;padding:30px;text-align:center;color:var(--muted);font-size:11px}
+.empty .empty-icon{
+ width:58px;height:58px;margin:0 auto 13px;border-radius:20px;display:grid;place-items:center;color:#fff;font-size:24px;font-weight:950;
+ background:linear-gradient(135deg,var(--orange),var(--orange-2));box-shadow:0 14px 28px rgba(255,107,0,.18)
+}
+
+.admin-layout{display:grid;grid-template-columns:335px minmax(0,1fr);gap:16px;height:calc(100vh - 118px);min-height:620px}
+.sidebar{display:flex;flex-direction:column}
+.side-head{padding:16px;border-bottom:1px solid var(--line);background:#fff}
+.side-title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.side-title h2{margin:0;font-size:14px}
+.count{padding:5px 8px;border-radius:999px;background:var(--orange-3);color:#aa5219;font-size:9px;font-weight:950}
+.search-box{margin-top:10px;position:relative}
+.search-box input{
+ width:100%;border:1px solid var(--line);outline:none;border-radius:12px;padding:10px 11px 10px 33px;background:#f7f8fa;font-size:10px
+}
+.search-box span{position:absolute;left:11px;top:9px;color:#8c95a0;font-size:11px}
+.threads{overflow:auto;padding:7px}
+.thread{
+ padding:11px;border-radius:16px;margin-bottom:4px;cursor:pointer;border:1px solid transparent;transition:.15s
+}
+.thread:hover{background:#fafbfc;border-color:#eef1f3}
+.thread.active{background:#fff3eb;border-color:#ffd8bd}
+.thread-row{display:flex;gap:10px}
+.thread .avatar{width:38px;height:38px;border-radius:12px}
+.thread-main{min-width:0;flex:1}
+.thread-name{font-size:11px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thread-preview{font-size:9.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.thread-meta{display:flex;justify-content:space-between;gap:8px;margin-top:5px;color:#9ba3ad;font-size:8px}
+.unread-dot{width:8px;height:8px;display:inline-block;border-radius:50%;background:var(--orange);box-shadow:0 0 0 3px rgba(255,107,0,.10)}
+.mobile-thread-btn{display:none}
+
+.admin-chat-shell{height:100%;display:flex;flex-direction:column}
+.status-strip{display:flex;gap:7px;align-items:center;padding:8px 16px;border-bottom:1px solid var(--line);background:#fff}
+.status-badge{padding:5px 8px;border-radius:999px;background:#f5f6f7;color:#6b7280;font-size:8.5px;font-weight:900}
+.status-badge.orange{background:var(--orange-3);color:#aa5219}
+
+@media(max-width:940px){
+ .login-card{grid-template-columns:1fr}
+ .login-visual{display:none}
+ .login-form-panel{padding:30px}
+ .admin-layout{grid-template-columns:1fr;height:auto;min-height:calc(100vh - 102px)}
+ .sidebar{display:none}
+ .mobile-thread-btn{display:inline-flex}
+}
+@media(max-width:620px){
+ .top{height:64px;padding:0 11px}
+ .top-right .pill{display:none}
+ .wrap{padding:9px}
+ .login-shell{min-height:calc(100vh - 64px);padding:12px 0}
+ .login-card{border-radius:24px}
+ .login-form-panel{padding:24px 20px}
+ .form-inner h1{font-size:25px}
+ .welcome{align-items:flex-start;flex-direction:column;padding:16px}
+ .chips{justify-content:flex-start}
+ .user-layout{min-height:calc(100vh - 84px)}
+ .admin-layout{min-height:calc(100vh - 84px)}
+ .chat-head{padding:12px}
+ .chat-controls .mini-select{max-width:110px}
+ .messages{padding:16px 11px}
+ .bubble-wrap{max-width:88%}
+ .extras{padding:8px 9px 0}
+ .extras .select{min-width:0;flex:1}
+ .composer{padding:8px}
+ .brand-copy small{display:none}
+ .brand-mark{width:36px;height:36px;border-radius:12px}
+ .brand-copy b{font-size:14px}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
 </style>
 </head>
 <body>
-<div id="loading" class="loading"><div class="loader"><span class="spin"></span><span>Connecting to PlayZa Beta…</span></div></div>
-<header id="top" class="top hidden"><div class="brand"><div class="mark">P</div><div><b>PlayZa Beta</b><small>Feedback Center</small></div></div><div class="topright"><span class="pill"><span class="dot"></span>Firebase live</span><span id="account" class="pill"></span><button id="logout" class="btn ghost">Logout</button></div></header>
+
+<div id="loading" class="loading">
+  <div class="loader"><span class="spinner"></span><span id="loadingText">Connecting to PlayZa Beta…</span></div>
+</div>
+
+<header id="top" class="top hidden">
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-copy"><b>PlayZa Beta</b><small>Official Feedback Center</small></div>
+  </div>
+  <div class="top-right">
+    <span class="pill live"><span class="dot"></span>Firebase Live</span>
+    <span id="account" class="pill"></span>
+    <button id="logout" class="btn ghost">Logout</button>
+  </div>
+</header>
+
 <main class="wrap">
-<section id="login" class="login hidden"><div class="login-card"><div class="hero">P</div><h1>PlayZa Beta Feedback</h1><p class="sub">Private feedback chat for PlayZa beta users. Only accounts manually created in Firebase Authentication can log in.</p><div class="notice"><b>No public signup.</b> Add allowed emails yourself in Firebase Authentication, then give each user their password.</div><form id="loginForm"><div class="field"><label>Email</label><input id="email" class="input" type="email" autocomplete="username" placeholder="you@example.com" required></div><div class="field"><label>Password</label><input id="password" class="input" type="password" autocomplete="current-password" placeholder="••••••••" required></div><div id="loginError" class="error"></div><button class="btn primary" style="width:100%">Login to Beta Center</button></form></div></section>
-<section id="user" class="user-layout hidden"><div class="welcome"><div><h2>Beta feedback, straight to PlayZa 👋</h2><p>Bug, feature, UI, privacy ya performance — jo bhi feedback hai, isi private realtime thread mein bhejo.</p></div><div class="chips"><span class="chip">🔒 Private</span><span class="chip">⚡ Realtime</span><span class="chip">🧡 Official replies</span></div></div><div class="panel chat"><div class="chathead"><div class="chatuser"><div class="ava">P</div><div><h3>PlayZa Official</h3><p id="userMeta">Your private beta thread</p></div></div><select id="userStatus" class="mini-select"><option value="open">Open</option><option value="resolved">Resolved</option></select></div><div id="userMsgs" class="messages"></div><div class="extras"><select id="userCategory" class="select"><option value="general">General feedback</option><option value="bug">Bug report</option><option value="feature">Feature request</option><option value="ui">UI / UX</option><option value="performance">Performance</option><option value="privacy">Privacy / Security</option></select><select id="userPriority" class="select"><option value="normal">Normal</option><option value="high">High priority</option></select></div><form id="userForm" class="composer"><textarea id="userText" class="ta" rows="1" placeholder="Write your feedback…"></textarea><button class="btn primary send">➤</button></form></div></section>
-<section id="admin" class="admin-layout hidden"><aside class="panel sidebar"><div class="sidehead"><div class="sidehead-row"><h2>Feedback Inbox</h2><span id="count" class="count">0</span></div><div class="search"><input id="search" type="search" placeholder="Search email / feedback…"></div></div><div id="threads" class="threads"></div></aside><section class="panel chat"><div id="adminEmpty" class="empty"><div><div class="hero" style="margin:0 auto 14px;width:58px;height:58px">P</div><h3>Select a feedback thread</h3><p class="sub">Only <b>official@playza.com</b> can send official replies.</p></div></div><div id="adminChat" class="hidden" style="height:100%;display:flex;flex-direction:column"><div class="chathead"><div class="chatuser"><div id="adminAva" class="ava">U</div><div><h3 id="adminEmail">User</h3><p id="adminSub">Beta feedback</p></div></div><div class="controls"><select id="adminStatus" class="mini-select"><option value="open">Open</option><option value="resolved">Resolved</option></select><select id="adminCategory" class="mini-select"><option value="general">General</option><option value="bug">Bug</option><option value="feature">Feature</option><option value="ui">UI / UX</option><option value="performance">Performance</option><option value="privacy">Privacy</option></select></div></div><div id="adminMsgs" class="messages"></div><form id="adminForm" class="composer"><textarea id="adminText" class="ta" rows="1" placeholder="Reply as PlayZa Official…"></textarea><button class="btn primary send">➤</button></form></div></section></section>
-</main><div id="toast" class="toast"></div>
+
+<section id="login" class="login-shell hidden">
+  <div class="login-card">
+    <div class="login-visual">
+      <span class="visual-badge">🧡 Private Beta Access</span>
+      <div class="visual-logo">P</div>
+      <h2>Talk directly to the <span>PlayZa</span> team.</h2>
+      <p>Your account is authenticated through Firebase. Send bugs, ideas, UI feedback and performance notes inside your private beta thread.</p>
+      <div class="feature-list">
+        <div class="feature"><i>🔒</i><span>Private account-based access</span></div>
+        <div class="feature"><i>⚡</i><span>Realtime Firebase conversation</span></div>
+        <div class="feature"><i>🧩</i><span>Bug, feature and UI categories</span></div>
+      </div>
+    </div>
+
+    <div class="login-form-panel">
+      <div class="form-inner">
+        <div class="kicker">PlayZa Beta</div>
+        <h1>Welcome back</h1>
+        <div class="sub">Login with the email and password created for you in Firebase Authentication.</div>
+
+        <div class="notice"><b>No public signup.</b> Only users that you create in this Firebase project can access the Beta Center.</div>
+
+        <form id="loginForm">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" class="input" type="email" autocomplete="username" inputmode="email" placeholder="you@example.com" required>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <input id="password" class="input with-action" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="6" required>
+              <button id="togglePassword" class="password-toggle" type="button" aria-label="Show password">◉</button>
+            </div>
+          </div>
+
+          <div id="loginError" class="error"></div>
+
+          <div class="form-row">
+            <span class="hint">Email/password authentication is required.</span>
+            <button id="forgotPassword" class="link-btn" type="button">Forgot password?</button>
+          </div>
+
+          <button id="loginBtn" class="btn primary" type="submit" style="width:100%">Login to Beta Center <span>→</span></button>
+        </form>
+
+        <div class="auth-help">Login issues? Make sure <b>Email/Password</b> is enabled in Firebase Authentication and the user was created in this exact Firebase project.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="user" class="user-layout hidden">
+  <div class="welcome">
+    <div>
+      <h2>Beta feedback, straight to PlayZa 👋</h2>
+      <p>Bug, feature, UI, privacy ya performance — jo bhi feedback hai, isi private realtime thread mein bhejo.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">🔒 Private</span><span class="chip">⚡ Realtime</span><span class="chip">🧡 Official replies</span>
+    </div>
+  </div>
+
+  <div class="panel chat">
+    <div class="chat-head">
+      <div class="chat-user">
+        <div class="avatar">P</div>
+        <div><h3>PlayZa Official</h3><p id="userMeta">Your private beta thread</p></div>
+      </div>
+      <div class="chat-controls">
+        <select id="userStatus" class="mini-select" aria-label="Thread status">
+          <option value="open">Open</option><option value="resolved">Resolved</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="userMsgs" class="messages"></div>
+
+    <div class="extras">
+      <select id="userCategory" class="select">
+        <option value="general">General feedback</option><option value="bug">Bug report</option>
+        <option value="feature">Feature request</option><option value="ui">UI / UX</option>
+        <option value="performance">Performance</option><option value="privacy">Privacy / Security</option>
+      </select>
+      <select id="userPriority" class="select">
+        <option value="normal">Normal priority</option><option value="high">High priority</option>
+      </select>
+    </div>
+
+    <form id="userForm" class="composer">
+      <textarea id="userText" class="ta" rows="1" maxlength="4000" placeholder="Write your feedback… (Enter to send, Shift+Enter for new line)"></textarea>
+      <button id="userSend" class="btn primary send" type="submit" aria-label="Send feedback">➤</button>
+    </form>
+  </div>
+</section>
+
+<section id="admin" class="admin-layout hidden">
+  <aside class="panel sidebar">
+    <div class="side-head">
+      <div class="side-title"><h2>Feedback Inbox</h2><span id="count" class="count">0</span></div>
+      <div class="search-box"><span>⌕</span><input id="search" type="search" placeholder="Search email, feedback or category…"></div>
+    </div>
+    <div id="threads" class="threads"></div>
+  </aside>
+
+  <section class="panel chat">
+    <div id="adminEmpty" class="empty">
+      <div>
+        <div class="empty-icon">P</div>
+        <h3>Select a feedback thread</h3>
+        <p class="sub">Official replies can only be sent from the designated PlayZa account.</p>
+      </div>
+    </div>
+
+    <div id="adminChat" class="hidden admin-chat-shell">
+      <div class="chat-head">
+        <div class="chat-user">
+          <div id="adminAva" class="avatar">U</div>
+          <div><h3 id="adminEmail">User</h3><p id="adminSub">Beta feedback</p></div>
+        </div>
+        <div class="chat-controls">
+          <button id="mobileThreads" class="btn light mobile-thread-btn" type="button">Threads</button>
+          <select id="adminStatus" class="mini-select"><option value="open">Open</option><option value="resolved">Resolved</option></select>
+          <select id="adminCategory" class="mini-select">
+            <option value="general">General</option><option value="bug">Bug</option><option value="feature">Feature</option>
+            <option value="ui">UI / UX</option><option value="performance">Performance</option><option value="privacy">Privacy</option>
+          </select>
+        </div>
+      </div>
+      <div id="adminMsgs" class="messages"></div>
+      <form id="adminForm" class="composer">
+        <textarea id="adminText" class="ta" rows="1" maxlength="4000" placeholder="Reply as PlayZa Official…"></textarea>
+        <button id="adminSend" class="btn primary send" type="submit" aria-label="Send official reply">➤</button>
+      </form>
+    </div>
+  </section>
+</section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import{getAnalytics}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
-import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import{getDatabase,ref,push,set,update,onValue,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
-const config={apiKey:"AIzaSyC7bEYtEIk4DN3edQKievh-ek89tWS4awc",authDomain:"playza-87102.firebaseapp.com",databaseURL:"https://playza-87102-default-rtdb.firebaseio.com",projectId:"playza-87102",storageBucket:"playza-87102.firebasestorage.app",messagingSenderId:"695215345584",appId:"1:695215345584:web:329c783632d78222979075",measurementId:"G-92FKDMPV2S"};
-const OFFICIAL="official@playza.com",app=initializeApp(config),auth=getAuth(app),db=getDatabase(app);try{getAnalytics(app)}catch{}
-const $=id=>document.getElementById(id),esc=s=>(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])),isOfficial=u=>!!u&&(u.email||'').toLowerCase()===OFFICIAL,initials=e=>{let x=(e||'U').split('@')[0].replace(/[^a-z0-9]/gi,' ').trim().split(/\s+/).filter(Boolean);return (x.length>1?x[0][0]+x[1][0]:x[0].slice(0,2)).toUpperCase()},time=t=>{if(!t)return'now';let d=new Date(t);return isNaN(d)?'now':new Intl.DateTimeFormat('en-IN',{hour:'numeric',minute:'2-digit',day:'2-digit',month:'short'}).format(d)};
-let user=null,threads={},selected=null,unsubs=[];const stop=()=>{unsubs.forEach(f=>f&&f());unsubs=[];window.__adminMsgUnsub?.();window.__adminMsgUnsub=null;selected=null;threads={}},toast=(m)=>{let t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove('show'),2300)};const loading=v=>$('loading').classList.toggle('hidden',!v);
-function view(u){stop();user=u;$('top').classList.remove('hidden');$('login').classList.add('hidden');$('account').textContent=isOfficial(u)?'Official • PlayZa':(u.email||'Beta User');$('user').classList.toggle('hidden',isOfficial(u));$('admin').classList.toggle('hidden',!isOfficial(u));isOfficial(u)?adminMode():userMode()}
-function loginView(){$('top').classList.add('hidden');$('login').classList.remove('hidden');$('user').classList.add('hidden');$('admin').classList.add('hidden')}
-async function ensureThread(){let r=ref(db,'threads/'+user.uid);return new Promise((resolve,reject)=>onValue(r,async s=>{try{if(!s.exists())await set(r,{uid:user.uid,email:user.email||'',status:'open',category:'general',priority:'normal',createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastMessage:'Beta feedback thread created',lastSenderRole:'system',unreadForUser:false,unreadForOfficial:false});resolve()}catch(e){reject(e)}},{onlyOnce:true}))}
-function renderMsgs(el,data,admin){let a=Object.values(data||{}).sort((x,y)=>Number(x.createdAt||0)-Number(y.createdAt||0));if(!a.length){el.innerHTML='<div class="empty">'+(admin?'No messages yet.':'Start the conversation with your feedback.')+'</div>';return}el.innerHTML='<div class="sep">LIVE CONVERSATION</div>'+a.map(m=>{let off=m.senderRole==='official',mine=admin?off:!off;return'<div class="msg '+(mine?'me':'them')+'"><div class="bubble-wrap"><div class="bubble">'+esc(m.text)+'</div><div class="time">'+(off?'PlayZa Official':'Beta User')+' • '+time(m.createdAt)+'</div></div></div>'}).join('');el.scrollTop=el.scrollHeight}
-async function send(uid,text,role){text=text.trim();if(!text)return;if(text.length>4000)throw Error('Message must be 4000 characters or less.');let m=push(ref(db,'messages/'+uid));await set(m,{text,senderUid:user.uid,senderEmail:user.email||'',senderRole:role,createdAt:serverTimestamp()});await update(ref(db,'threads/'+uid),{updatedAt:serverTimestamp(),lastMessage:text.slice(0,160),lastSenderRole:role,status:'open',...(role==='user'?{unreadForOfficial:true}:{unreadForUser:true})})}
-async function userMode(){loading(true);try{await ensureThread()}catch{toast('Could not create your feedback thread.');loading(false);return}let t=onValue(ref(db,'threads/'+user.uid),s=>{let x=s.val()||{};$('userStatus').value=x.status||'open';$('userCategory').value=x.category||'general';$('userPriority').value=x.priority||'normal';$('userMeta').textContent=(x.status==='resolved'?'Resolved':'Open')+' • '+(x.category||'general')+' • private realtime thread'});let m=onValue(ref(db,'messages/'+user.uid),async s=>{renderMsgs($('userMsgs'),s.val(),false);try{await update(ref(db,'threads/'+user.uid),{unreadForUser:false})}catch{}});unsubs.push(t,m);loading(false)}
-function adminMode(){loading(false);let t=onValue(ref(db,'threads'),s=>{threads=s.val()||{};renderThreads();if(selected&&threads[selected])openThread(selected,true)});unsubs.push(t)}
-function renderThreads(){let q=$('search').value.trim().toLowerCase(),rows=Object.entries(threads).filter(([u,t])=>!q||`${t.email||''} ${t.lastMessage||''} ${t.category||''}`.toLowerCase().includes(q)).sort((a,b)=>Number(b[1].updatedAt||0)-Number(a[1].updatedAt||0));$('count').textContent=Object.keys(threads).length;if(!rows.length){$('threads').innerHTML='<div class="empty" style="height:auto">No feedback threads found.</div>';return}$('threads').innerHTML=rows.map(([uid,t])=>`<div class="thread ${uid===selected?'active':''}" data-id="${esc(uid)}"><div class="tr"><div class="ava">${initials(t.email||uid)}</div><div class="tm"><div class="tn">${esc(t.email||uid)}</div><div class="tp">${esc(t.lastMessage||'No messages yet')}</div><div class="meta"><span>${esc(t.category||'general')} • ${esc(t.status||'open')}</span><span>${t.unreadForOfficial?'<i class="unread"></i>':time(t.updatedAt)}</span></div></div></div></div>`).join('');document.querySelectorAll('.thread').forEach(x=>x.onclick=()=>openThread(x.dataset.id))}
-function openThread(uid,refresh=false){if(!threads[uid])return;selected=uid;let t=threads[uid];$('adminEmpty').classList.add('hidden');$('adminChat').classList.remove('hidden');$('adminEmail').textContent=t.email||uid;$('adminSub').textContent=(t.status||'open')+' • '+(t.category||'general')+' • beta feedback';$('adminAva').textContent=initials(t.email||uid);$('adminStatus').value=t.status||'open';$('adminCategory').value=t.category||'general';renderThreads();window.__adminMsgUnsub?.();window.__adminMsgUnsub=onValue(ref(db,'messages/'+uid),async s=>{renderMsgs($('adminMsgs'),s.val(),true);if(t.unreadForOfficial)try{await update(ref(db,'threads/'+uid),{unreadForOfficial:false})}catch{}});if(!refresh)requestAnimationFrame(()=>$('adminMsgs').scrollTop=$('adminMsgs').scrollHeight)}
-$('loginForm').onsubmit=async e=>{e.preventDefault();$('loginError').textContent='';loading(true);try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value)}catch(x){loading(false);let c=x.code||'';$('loginError').textContent=c.includes('invalid-credential')||c.includes('wrong-password')?'Email ya password incorrect hai.':c.includes('user-not-found')?'Ye email Firebase Authentication me add nahi hai.':c.includes('too-many-requests')?'Too many attempts. Thodi der baad try karo.':'Login nahi ho paya. Firebase settings check karo.'}}
-$('logout').onclick=()=>signOut(auth).catch(()=>toast('Logout failed.'));
-$('userForm').onsubmit=async e=>{e.preventDefault();let b=e.submitter,tx=$('userText');if(!tx.value.trim())return;b.disabled=true;try{await update(ref(db,'threads/'+user.uid),{category:$('userCategory').value,priority:$('userPriority').value});await send(user.uid,tx.value,'user');tx.value='';tx.style.height=''}catch(x){toast(x.message||'Message send failed.')}finally{b.disabled=false;tx.focus()}};
-$('adminForm').onsubmit=async e=>{e.preventDefault();if(!selected)return toast('Select a feedback thread first.');let b=e.submitter,tx=$('adminText');if(!tx.value.trim())return;b.disabled=true;try{await send(selected,tx.value,'official');tx.value='';tx.style.height=''}catch(x){toast(x.message||'Reply failed.')}finally{b.disabled=false;tx.focus()}};
-$('userStatus').onchange=()=>update(ref(db,'threads/'+user.uid),{status:$('userStatus').value,updatedAt:serverTimestamp()}).catch(()=>toast('Status update failed.'));
-$('adminStatus').onchange=()=>selected&&update(ref(db,'threads/'+selected),{status:$('adminStatus').value,updatedAt:serverTimestamp()}).catch(()=>toast('Status update failed.'));
-$('adminCategory').onchange=()=>selected&&update(ref(db,'threads/'+selected),{category:$('adminCategory').value,updatedAt:serverTimestamp()}).catch(()=>toast('Category update failed.'));
-$('search').oninput=renderThreads;
-['userText','adminText'].forEach(id=>{let t=$(id);t.oninput=()=>{t.style.height='auto';t.style.height=Math.min(150,t.scrollHeight)+'px'};t.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();t.form.requestSubmit()}}});
-onAuthStateChanged(auth,u=>{if(!u){stop();user=null;loading(false);loginView();return}view(u)});
-if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {
+  getDatabase, ref, push, set, update, onValue, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+/*
+  IMPORTANT:
+  1) This app now uses the Firebase project from your supplied config: playza-beta-jnr.
+  2) Enable Authentication → Sign-in method → Email/Password.
+  3) Create the allowed users under Authentication → Users.
+  4) RTDB URL below is the normal default URL. If your Realtime Database console shows
+     a different URL, replace DATABASE_URL with that exact URL.
+*/
+const firebaseConfig = {
+  apiKey: "AIzaSyARphDfw_hHr3e6KFiVOTHvm_3lfn-Whx4",
+  authDomain: "playza-beta-jnr.firebaseapp.com",
+  projectId: "playza-beta-jnr",
+  storageBucket: "playza-beta-jnr.firebasestorage.app",
+  messagingSenderId: "649288471389",
+  appId: "1:649288471389:web:8caa650f77eea782e04eb4",
+  measurementId: "G-PJ4G6XXJ28"
+};
+
+const DATABASE_URL = "https://playza-beta-jnr-default-rtdb.firebaseio.com";
+const OFFICIAL = "official@playza.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app, DATABASE_URL);
+try { getAnalytics(app); } catch {}
+
+const $ = id => document.getElementById(id);
+const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+}[c]));
+const isOfficial = u => !!u && (u.email || "").toLowerCase() === OFFICIAL;
+const initials = email => {
+  const parts = String(email || "U").split("@")[0].replace(/[^a-z0-9]/gi," ").trim().split(/\s+/).filter(Boolean);
+  return ((parts.length > 1 ? parts[0][0] + parts[1][0] : (parts[0] || "U").slice(0,2))).toUpperCase();
+};
+const formatTime = timestamp => {
+  if (!timestamp) return "now";
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return "now";
+  return new Intl.DateTimeFormat("en-IN",{hour:"numeric",minute:"2-digit",day:"2-digit",month:"short"}).format(date);
+};
+
+let currentUser = null;
+let threads = {};
+let selectedThread = null;
+let subscriptions = [];
+let adminMessageUnsub = null;
+
+function loading(show, text = "Connecting to PlayZa Beta…") {
+  $("loadingText").textContent = text;
+  $("loading").classList.toggle("hidden", !show);
+}
+function toast(message) {
+  const t = $("toast");
+  t.textContent = message;
+  t.classList.add("show");
+  clearTimeout(window.__toast);
+  window.__toast = setTimeout(() => t.classList.remove("show"), 2600);
+}
+function clearSubscriptions() {
+  subscriptions.forEach(fn => { try { fn?.(); } catch {} });
+  subscriptions = [];
+  adminMessageUnsub?.();
+  adminMessageUnsub = null;
+  selectedThread = null;
+  threads = {};
+}
+function loginView() {
+  $("top").classList.add("hidden");
+  $("login").classList.remove("hidden");
+  $("user").classList.add("hidden");
+  $("admin").classList.add("hidden");
+}
+function showAppView(user) {
+  clearSubscriptions();
+  currentUser = user;
+  $("top").classList.remove("hidden");
+  $("login").classList.add("hidden");
+  $("account").textContent = isOfficial(user) ? "Official • PlayZa" : (user.email || "Beta User");
+  $("user").classList.toggle("hidden", isOfficial(user));
+  $("admin").classList.toggle("hidden", !isOfficial(user));
+  if (isOfficial(user)) adminMode(); else userMode();
+}
+
+function firebaseLoginMessage(error) {
+  const code = error?.code || "";
+  const map = {
+    "auth/invalid-credential":"Email ya password incorrect hai.",
+    "auth/invalid-login-credentials":"Email ya password incorrect hai.",
+    "auth/wrong-password":"Email ya password incorrect hai.",
+    "auth/user-not-found":"Ye email is Firebase project ke Authentication users mein nahi hai.",
+    "auth/user-disabled":"Ye Firebase account disabled hai.",
+    "auth/too-many-requests":"Bahut zyada attempts hue hain. Kuch der baad try karo.",
+    "auth/network-request-failed":"Network/Firebase connection problem. Internet check karo.",
+    "auth/operation-not-allowed":"Firebase Authentication mein Email/Password provider enable nahi hai.",
+    "auth/api-key-not-valid":"Firebase API key invalid hai ya wrong project ki hai.",
+    "auth/app-not-authorized":"Ye app Firebase project ke liye authorized nahi hai.",
+    "auth/invalid-api-key":"Firebase API key invalid hai."
+  };
+  return map[code] || `Login failed (${code || "unknown-error"}). Firebase Authentication settings check karo.`;
+}
+
+async function ensureThread() {
+  const threadRef = ref(db, `threads/${currentUser.uid}`);
+  return new Promise((resolve, reject) => {
+    onValue(threadRef, async snap => {
+      try {
+        if (!snap.exists()) {
+          await set(threadRef, {
+            uid: currentUser.uid,
+            email: currentUser.email || "",
+            status: "open",
+            category: "general",
+            priority: "normal",
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+            lastMessage: "Beta feedback thread created",
+            lastSenderRole: "system",
+            unreadForUser: false,
+            unreadForOfficial: false
+          });
+        }
+        resolve();
+      } catch (e) { reject(e); }
+    }, { onlyOnce: true });
+  });
+}
+
+function renderMessages(element, data, admin) {
+  const messages = Object.values(data || {}).sort((a,b) => Number(a.createdAt || 0) - Number(b.createdAt || 0));
+  if (!messages.length) {
+    element.innerHTML = `<div class="empty"><div><div class="empty-icon">💬</div><div>${admin ? "No messages yet." : "Start the conversation with your feedback."}</div></div></div>`;
+    return;
+  }
+  element.innerHTML = `<div class="separator">LIVE CONVERSATION</div>` + messages.map(m => {
+    const official = m.senderRole === "official";
+    const mine = admin ? official : !official;
+    return `<div class="message ${mine ? "me" : "them"}">
+      <div class="bubble-wrap">
+        <div class="bubble">${esc(m.text)}</div>
+        <div class="time">${official ? "PlayZa Official" : "Beta User"} • ${formatTime(m.createdAt)}</div>
+      </div>
+    </div>`;
+  }).join("");
+  element.scrollTop = element.scrollHeight;
+}
+
+async function sendMessage(uid, text, role) {
+  const clean = text.trim();
+  if (!clean) return;
+  if (clean.length > 4000) throw new Error("Message must be 4000 characters or less.");
+  const message = push(ref(db, `messages/${uid}`));
+  await set(message, {
+    text: clean,
+    senderUid: currentUser.uid,
+    senderEmail: currentUser.email || "",
+    senderRole: role,
+    createdAt: serverTimestamp()
+  });
+  await update(ref(db, `threads/${uid}`), {
+    updatedAt: serverTimestamp(),
+    lastMessage: clean.slice(0,160),
+    lastSenderRole: role,
+    status: "open",
+    ...(role === "user" ? { unreadForOfficial: true } : { unreadForUser: true })
+  });
+}
+
+async function userMode() {
+  loading(true, "Opening your private feedback thread…");
+  try {
+    await ensureThread();
+    const threadUnsub = onValue(ref(db, `threads/${currentUser.uid}`), snap => {
+      const data = snap.val() || {};
+      $("userStatus").value = data.status || "open";
+      $("userCategory").value = data.category || "general";
+      $("userPriority").value = data.priority || "normal";
+      $("userMeta").textContent =
+        `${data.status === "resolved" ? "Resolved" : "Open"} • ${data.category || "general"} • private realtime thread`;
+    });
+    const msgUnsub = onValue(ref(db, `messages/${currentUser.uid}`), async snap => {
+      renderMessages($("userMsgs"), snap.val(), false);
+      try { await update(ref(db, `threads/${currentUser.uid}`), { unreadForUser: false }); } catch {}
+    });
+    subscriptions.push(threadUnsub, msgUnsub);
+    loading(false);
+  } catch (e) {
+    loading(false);
+    toast("Could not open Firebase feedback thread.");
+    $("loginError").textContent = "Firebase Database connection/rules issue: " + (e?.message || "permission denied.");
+  }
+}
+
+function adminMode() {
+  loading(false);
+  const unsub = onValue(ref(db, "threads"), snap => {
+    threads = snap.val() || {};
+    renderThreads();
+    if (selectedThread && threads[selectedThread]) openThread(selectedThread, true);
+  }, error => {
+    toast("Could not load feedback inbox.");
+    console.error(error);
+  });
+  subscriptions.push(unsub);
+}
+
+function renderThreads() {
+  const query = $("search").value.trim().toLowerCase();
+  const rows = Object.entries(threads)
+    .filter(([uid,t]) => !query || `${t.email || ""} ${t.lastMessage || ""} ${t.category || ""}`.toLowerCase().includes(query))
+    .sort((a,b) => Number(b[1].updatedAt || 0) - Number(a[1].updatedAt || 0));
+
+  $("count").textContent = Object.keys(threads).length;
+
+  if (!rows.length) {
+    $("threads").innerHTML = `<div class="empty" style="height:auto"><div><div class="empty-icon">⌕</div>No feedback threads found.</div></div>`;
+    return;
+  }
+
+  $("threads").innerHTML = rows.map(([uid,t]) => `
+    <div class="thread ${uid === selectedThread ? "active" : ""}" data-id="${esc(uid)}">
+      <div class="thread-row">
+        <div class="avatar">${initials(t.email || uid)}</div>
+        <div class="thread-main">
+          <div class="thread-name">${esc(t.email || uid)}</div>
+          <div class="thread-preview">${esc(t.lastMessage || "No messages yet")}</div>
+          <div class="thread-meta">
+            <span>${esc(t.category || "general")} • ${esc(t.status || "open")}</span>
+            <span>${t.unreadForOfficial ? '<i class="unread-dot"></i>' : formatTime(t.updatedAt)}</span>
+          </div>
+        </div>
+      </div>
+    </div>`).join("");
+
+  document.querySelectorAll(".thread").forEach(el => {
+    el.onclick = () => openThread(el.dataset.id);
+  });
+}
+
+function openThread(uid, refresh = false) {
+  if (!threads[uid]) return;
+  selectedThread = uid;
+  const thread = threads[uid];
+
+  $("adminEmpty").classList.add("hidden");
+  $("adminChat").classList.remove("hidden");
+  $("adminEmail").textContent = thread.email || uid;
+  $("adminSub").textContent = `${thread.status || "open"} • ${thread.category || "general"} • beta feedback`;
+  $("adminAva").textContent = initials(thread.email || uid);
+  $("adminStatus").value = thread.status || "open";
+  $("adminCategory").value = thread.category || "general";
+  renderThreads();
+
+  adminMessageUnsub?.();
+  adminMessageUnsub = onValue(ref(db, `messages/${uid}`), async snap => {
+    renderMessages($("adminMsgs"), snap.val(), true);
+    if (thread.unreadForOfficial) {
+      try { await update(ref(db, `threads/${uid}`), { unreadForOfficial: false }); } catch {}
+    }
+  });
+  if (!refresh) requestAnimationFrame(() => $("adminMsgs").scrollTop = $("adminMsgs").scrollHeight);
+}
+
+function showPassword() {
+  const field = $("password");
+  const visible = field.type === "text";
+  field.type = visible ? "password" : "text";
+  $("togglePassword").textContent = visible ? "◉" : "○";
+  $("togglePassword").setAttribute("aria-label", visible ? "Show password" : "Hide password");
+}
+
+$("togglePassword").onclick = showPassword;
+
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  $("loginError").textContent = "";
+
+  const email = $("email").value.trim();
+  const password = $("password").value;
+
+  if (!email || !password) {
+    $("loginError").textContent = "Email aur password dono enter karo.";
+    return;
+  }
+
+  $("loginBtn").disabled = true;
+  loading(true, "Signing in securely…");
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    loading(false);
+    $("loginError").textContent = firebaseLoginMessage(error);
+    console.error("Firebase Auth error:", error);
+  } finally {
+    $("loginBtn").disabled = false;
+  }
+});
+
+$("forgotPassword").onclick = async () => {
+  const email = $("email").value.trim();
+  $("loginError").textContent = "";
+  if (!email) {
+    $("loginError").textContent = "Password reset ke liye pehle email enter karo.";
+    $("email").focus();
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    toast("Password reset email sent.");
+  } catch (error) {
+    $("loginError").textContent = firebaseLoginMessage(error);
+    console.error("Password reset error:", error);
+  }
+};
+
+$("logout").onclick = async () => {
+  try { await signOut(auth); }
+  catch (e) { toast("Logout failed."); }
+};
+
+$("userForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const button = $("userSend"), input = $("userText");
+  if (!input.value.trim()) return;
+  button.disabled = true;
+  try {
+    await update(ref(db, `threads/${currentUser.uid}`), {
+      category: $("userCategory").value,
+      priority: $("userPriority").value,
+      updatedAt: serverTimestamp()
+    });
+    await sendMessage(currentUser.uid, input.value, "user");
+    input.value = "";
+    input.style.height = "";
+  } catch (e) {
+    toast(e?.message || "Message send failed.");
+  } finally {
+    button.disabled = false;
+    input.focus();
+  }
+});
+
+$("adminForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!selectedThread) return toast("Select a feedback thread first.");
+  const button = $("adminSend"), input = $("adminText");
+  if (!input.value.trim()) return;
+  button.disabled = true;
+  try {
+    await sendMessage(selectedThread, input.value, "official");
+    input.value = "";
+    input.style.height = "";
+  } catch (e) {
+    toast(e?.message || "Reply failed.");
+  } finally {
+    button.disabled = false;
+    input.focus();
+  }
+});
+
+$("userStatus").onchange = () =>
+  update(ref(db, `threads/${currentUser.uid}`), { status: $("userStatus").value, updatedAt: serverTimestamp() })
+    .catch(() => toast("Status update failed."));
+
+$("adminStatus").onchange = () => selectedThread &&
+  update(ref(db, `threads/${selectedThread}`), { status: $("adminStatus").value, updatedAt: serverTimestamp() })
+    .catch(() => toast("Status update failed."));
+
+$("adminCategory").onchange = () => selectedThread &&
+  update(ref(db, `threads/${selectedThread}`), { category: $("adminCategory").value, updatedAt: serverTimestamp() })
+    .catch(() => toast("Category update failed."));
+
+$("search").oninput = renderThreads;
+
+["userText","adminText"].forEach(id => {
+  const input = $(id);
+  input.addEventListener("input", () => {
+    input.style.height = "auto";
+    input.style.height = Math.min(160, input.scrollHeight) + "px";
+  });
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      input.form.requestSubmit();
+    }
+  });
+});
+
+$("mobileThreads").onclick = () => {
+  const sidebar = document.querySelector(".sidebar");
+  sidebar.style.display = "flex";
+  sidebar.style.position = "fixed";
+  sidebar.style.inset = "74px 9px 9px 9px";
+  sidebar.style.zIndex = "200";
+  sidebar.style.maxHeight = "calc(100vh - 83px)";
+  const close = () => {
+    sidebar.style.display = "";
+    sidebar.style.position = "";
+    sidebar.style.inset = "";
+    sidebar.style.zIndex = "";
+    sidebar.style.maxHeight = "";
+    document.removeEventListener("click", outside);
+  };
+  const outside = ev => { if (!sidebar.contains(ev.target) && ev.target !== $("mobileThreads")) close(); };
+  setTimeout(() => document.addEventListener("click", outside), 0);
+};
+
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    clearSubscriptions();
+    currentUser = null;
+    loading(false);
+    loginView();
+    return;
+  }
+  showAppView(user);
+});
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+}
 </script>
-</body></html>
+</body>
+</html>
